@@ -1,5 +1,14 @@
 import { DOMParser } from "jsr:@b-fuze/deno-dom";
-import { Watcher } from "./main.ts";
+
+interface Watcher {
+  type: "content" | "count" | "attribute" | "number";
+  id: string;
+  name: string;
+  url: string;
+  selector: string;
+  previous?: string | number;
+  attribute?: string;
+}
 
 const watchersArray: Watcher[] = JSON.parse(await Deno.readTextFile("./watchers.json"));
 const watchers = new Map<string, Watcher>(watchersArray.map(e => [e.id, e]));
@@ -10,7 +19,7 @@ async function hashString(s: string) {
   return Array.from(new Uint8Array(hash)).map(e => e.toString(16).padStart(2, "0")).join("");
 }
 
-async function callWebhook(changedValue: any) {
+async function callWebhook(watcher: Watcher, changedValue: any) {
   const webhookUrl = Deno.env.get("WEBHOOK_URL");
   if (!webhookUrl) {
     return;
@@ -23,7 +32,7 @@ async function callWebhook(changedValue: any) {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        content: changedValue
+        content: `changes detedted on ${watcher.name}! New value is \`${changedValue}\``
       })
     },
   );
@@ -47,7 +56,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (!watcher.previous || watcher.previous !== content) {
       watcher.previous = content;
       watchers.set(watcherId, watcher);
-      callWebhook(content);
+      callWebhook(watcher, content);
     }
 
   }
@@ -59,7 +68,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (watcher.previous === undefined || watcher.previous !== targetElementCount) {
       watcher.previous = targetElementCount;
       watchers.set(watcherId, watcher);
-      callWebhook(targetElementCount);
+      callWebhook(watcher, targetElementCount);
     }
 
   }
@@ -77,7 +86,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (!watcher.previous || watcher.previous !== attributeContent) {
       watcher.previous = attributeContent;
       watchers.set(watcherId, watcher);
-      callWebhook(attributeContent);
+      callWebhook(watcher, attributeContent);
     }
 
   }
@@ -99,7 +108,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (watcher.previous === undefined || watcher.previous !== value) {
       watcher.previous = value;
       watchers.set(watcherId, watcher);
-      callWebhook(value);
+      callWebhook(watcher, value);
     }
 
   }
