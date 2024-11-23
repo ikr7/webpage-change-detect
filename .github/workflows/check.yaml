@@ -1,0 +1,26 @@
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+  workflow_dispatch:
+name: check website changes
+jobs:
+  scrape:
+    name: Scrape
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.1.1
+      - name: checkout
+        uses: actions/checkout@master
+      - name: check
+        working-directory: .
+        run: deno run --allow-all check.ts
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+      - name: publish
+        uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: main
