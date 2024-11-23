@@ -26,7 +26,6 @@
     "name": "ニコニコ技術部",
     "type": "number",
     "url": "https://www.nicovideo.jp/tag/ニコニコ技術部",
-    "selector": "p.dataValue > span.num",
-    "intervalSec": 86400
+    "selector": "p.dataValue > span.num"
   }
 ]
