@@ -27,6 +27,6 @@
     "url": "https://www.nicovideo.jp/tag/ニコニコ技術部",
     "selector": "p.dataValue > span.num",
     "intervalSec": 86400,
-    "previous": 52514
+    "previous": 52515
   }
 ]
