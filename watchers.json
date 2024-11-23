@@ -3,26 +3,30 @@
     "id": "e1161ecf-651b-4d90-bdc1-59587ba13cdf",
     "type": "content",
     "url": "https://blog.nicovideo.jp/niconews/category/topic/",
-    "selector": "ul#vp_1 > li:nth-child(1)"
+    "selector": "ul#vp_1 > li:nth-child(1)",
+    "previous": "【サポーターの皆様へ】歌コレ2024秋に参加したクリエイターをサポーターになって応援しませんか？期間限定でデジタルのサポートカードがダウンロードできます！【クリエイターサポート】\n                2024-11-23"
   },
   {
     "id": "000fab02-f8be-490a-be1e-697edb239cb3",
     "type": "count",
     "url": "https://kumpei.ikuta.me/",
-    "selector": "ul#article-list > li"
+    "selector": "ul#article-list > li",
+    "previous": 28
   },
   {
     "id": "e6a2890c-4410-4fa0-a845-6b210cf8dd4b",
     "type": "attribute",
     "url": "https://blog.nicovideo.jp/niconews/category/topic/",
     "selector": "div.l-header img",
-    "attribute": "src"
+    "attribute": "src",
+    "previous": "/niconews/wp-content/themes/nicoinfo/images/niconicoinfo_logo.png"
   },
   {
     "id": "1e49e739-177d-442f-a6b8-81d2e7091617",
     "type": "number",
     "url": "https://www.nicovideo.jp/tag/ニコニコ技術部",
     "selector": "p.dataValue > span.num",
-    "intervalSec": 86400
+    "intervalSec": 86400,
+    "previous": 52514
   }
 ]
