@@ -5,7 +5,7 @@ on:
 name: check website changes
 jobs:
   scrape:
-    name: check website changes
+    name: Scrape
     runs-on: ubuntu-latest
     steps:
       - name: setup deno
@@ -19,9 +19,6 @@ jobs:
         run: deno run --allow-all check.ts
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-      - name: check result
-        working-directory: .
-        run: cat watchers.json
       - name: publish
         uses: mikeal/publish-to-github-action@master
         env:
