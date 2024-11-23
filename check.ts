@@ -8,6 +8,7 @@ interface Watcher {
   selector: string;
   previous?: string | number;
   attribute?: string;
+  threshold?: number;
 }
 
 const watchersArray: Watcher[] = JSON.parse(await Deno.readTextFile("./watchers.json"));
@@ -32,7 +33,7 @@ async function callWebhook(watcher: Watcher, changedValue: any) {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        content: `changes detedted on ${watcher.name}! New value is \`${changedValue}\``
+        content: `changes detedted on ${watcher.name} ! New value is \`${changedValue}\``
       })
     },
   );
@@ -105,7 +106,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
       continue;
     }
 
-    if (watcher.previous === undefined || watcher.previous !== value) {
+    if (watcher.previous === undefined || typeof watcher.previous === "number" && Math.abs(watcher.previous - value) > (watcher.threshold ?? 0)) {
       watcher.previous = value;
       watchers.set(watcherId, watcher);
       callWebhook(watcher, value);
