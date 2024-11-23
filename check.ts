@@ -10,7 +10,11 @@ async function hashString(s: string) {
   return Array.from(new Uint8Array(hash)).map(e => e.toString(16).padStart(2, "0")).join("");
 }
 
-async function callWebhook(webhookUrl: string, changedValue: any) {
+async function callWebhook(changedValue: any) {
+  const webhookUrl = Deno.env.get("WEBHOOK_URL");
+  if (!webhookUrl) {
+    return;
+  }
   await fetch(
     webhookUrl,
     {
@@ -43,7 +47,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (!watcher.previous || watcher.previous !== content) {
       watcher.previous = content;
       watchers.set(watcherId, watcher);
-      callWebhook(watcher.webhookUrl, content);
+      callWebhook(content);
     }
 
   }
@@ -55,7 +59,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (watcher.previous === undefined || watcher.previous !== targetElementCount) {
       watcher.previous = targetElementCount;
       watchers.set(watcherId, watcher);
-      callWebhook(watcher.webhookUrl, targetElementCount);
+      callWebhook(targetElementCount);
     }
 
   }
@@ -73,7 +77,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (!watcher.previous || watcher.previous !== attributeContent) {
       watcher.previous = attributeContent;
       watchers.set(watcherId, watcher);
-      callWebhook(watcher.webhookUrl, attributeContent);
+      callWebhook(attributeContent);
     }
 
   }
@@ -95,7 +99,7 @@ for (const [watcherId, watcher] of watchers.entries()) {
     if (watcher.previous === undefined || watcher.previous !== value) {
       watcher.previous = value;
       watchers.set(watcherId, watcher);
-      callWebhook(watcher.webhookUrl, value);
+      callWebhook(value);
     }
 
   }
