@@ -30,6 +30,6 @@
     "type": "number",
     "url": "https://www.nicovideo.jp/tag/ニコニコ技術部",
     "selector": "p.dataValue > span.num",
-    "previous": 52515
+    "previous": 52521
   }
 ]
